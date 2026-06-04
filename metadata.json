@@ -1,0 +1,5 @@
+{
+  "name": "Clash Equip Calc",
+  "description": "A comprehensive calculator for Clash of Clans equipment, tracking ores (Shiny, Glowy, Starry), calculating deficits, and estimating time to max based on player strategy and league.",
+  "requestFramePermissions": []
+}

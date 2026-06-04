@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Calcola accuratamente il guadagno di minerali (Comuni, Rari, Stellari), traccia i miglioramenti dei tuoi eroi e pianifica la tua progressione in Clash of Clans. Aggiornato a Marzo 2026. Sviluppato da Filippo Pistaffa." />
+    <meta name="keywords" content="Clash of Clans, CoC, Clash Equip, Dragon Duke, Calcolatore Minerali, Minerale Comune, Minerale Raro, Filippo Pistaffa, Clash of Clans Strategy, Upgrade Priority" />
+    <meta name="author" content="Filippo Pistaffa" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Clash Equipment Calc | Filippo Pistaffa" />
+    <meta property="og:description" content="Pianifica i tuoi equipaggiamenti e ottimizza la progressione in Clash of Clans. Calcolatore aggiornato a Marzo 2026." />
+    <meta property="og:image" content="https://m.media-amazon.com/images/I/81Z+V7GJIEL.png" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Clash Equipment Calc | Filippo Pistaffa" />
+    <meta name="twitter:description" content="Pianifica i tuoi equipaggiamenti e ottimizza la progressione in Clash of Clans. Calcolatore aggiornato a Marzo 2026." />
+    <meta name="twitter:image" content="https://m.media-amazon.com/images/I/81Z+V7GJIEL.png" />
+
+    <title>Clash Equipment Calc - Filippo Pistaffa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                fontFamily: {
+                    sans: ['Outfit', 'sans-serif'],
+                },
+                extend: {
+                    fontWeight: {
+                        heavy: '900',
+                    },
+                    colors: {
+                        'ore-shiny': 'var(--ore-shiny)',
+                        'ore-glowy': 'var(--ore-glowy)',
+                        'ore-starry': 'var(--ore-starry)',
+                    },
+                    spacing: {
+                        'safe-bottom': 'env(safe-area-inset-bottom)',
+                        'safe-top': 'env(safe-area-inset-top)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            /* --- COLOR PALETTE VARIABLES --- */
+            
+            /* DARK THEME */
+            --bg-app: #0f1115;
+            --bg-nav: #181a20;
+            --bg-card: #1e2025;
+            --bg-input: #2a2d35;
+            --bg-input-nav: #23262f;
+            --border-color: rgba(255, 255, 255, 0.1);
+            
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --text-inverted: #000000;
+            
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            
+            /* Ores */
+            --ore-shiny: #4fc3f7;
+            --ore-shiny-bg: rgba(79, 195, 247, 0.15);
+            --ore-glowy: #d48ae0;
+            --ore-glowy-bg: rgba(212, 138, 224, 0.15);
+            --ore-starry: #ffd54f;
+            --ore-starry-bg: rgba(255, 213, 79, 0.15);
+
+            --accent-primary: #3b82f6;
+            --scrollbar-thumb: #4b5563;
+            --scrollbar-track: #181a20;
+        }
+
+        /* LIGHT THEME OVERRIDES (Clash Style: Warm, Clean, Sober) */
+        [data-theme="light"] {
+            /* Warm background like the Clash village grass/stone mix but subtle */
+            --bg-app: #f0eee9; 
+            /* Clean white for nav */
+            --bg-nav: #ffffff;
+            /* White cards */
+            --bg-card: #ffffff;
+            /* Light warm grey for inputs */
+            --bg-input: #e8e6e1;
+            /* Slightly darker input for nav */
+            --bg-input-nav: #f3f2ef;
+            --border-color: #dcd9d0;
+            
+            --text-main: #2d2d2d;
+            --text-muted: #747474;
+            --text-inverted: #ffffff;
+            
+            --shadow-card: 0 4px 15px -3px rgba(0, 0, 0, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.04);
+
+            --ore-shiny: #0284c7;
+            --ore-shiny-bg: rgba(2, 132, 199, 0.1);
+            --ore-glowy: #9333ea;
+            --ore-glowy-bg: rgba(147, 51, 234, 0.1);
+            --ore-starry: #d97706;
+            --ore-starry-bg: rgba(217, 119, 6, 0.1);
+
+            /* Clash Blue Button color but modern */
+            --accent-primary: #2b75ff; 
+            --scrollbar-thumb: #cccac4;
+            --scrollbar-track: #f0eee9;
+        }
+
+        /* Force color scheme for native inputs */
+        html[data-theme="dark"] {
+            color-scheme: dark;
+        }
+        html[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        body {
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Ensure safe area padding for bottom navigation on mobile */
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); border-radius: 4px; }
+        ::-webkit-scrollbar-track { background-color: var(--scrollbar-track); }
+
+        /* Range Input Customization */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin-top: 12px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 12px; border-radius: 999px; border: 2px solid var(--bg-input); }
+        input[type=range]::-webkit-slider-thumb {
+            height: 24px; width: 24px; border-radius: 50%; background: #ffffff;
+            -webkit-appearance: none; margin-top: -8px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 2px solid var(--bg-card);
+        }
+        input[type=range]:disabled { opacity: 0.5; cursor: not-allowed; }
+        input[type=range]:disabled::-webkit-slider-thumb { background: #999; }
+
+        /* Dropdown Styling for consistency */
+        select option {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            padding: 8px;
+        }
+        
+        /* Modal Backdrop Fade */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
