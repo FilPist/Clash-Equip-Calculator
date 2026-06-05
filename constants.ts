@@ -101,6 +101,7 @@ export const EQUIP_DB: Record<HeroType, EquipmentItem[]> = {
         { id: 'aq_mirror', name: 'Magic Mirror', type: 'epic', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/1/1d/Magic_Mirror.png/revision/latest/scale-to-width-down/100?cb=20240807161619' },
         { id: 'aq_frozen', name: 'Frozen Arrow', type: 'epic', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/2/23/Frozen_Arrow.png/revision/latest/scale-to-width-down/100?cb=20240207193559' },
         { id: 'aq_action', name: 'Action Figure', type: 'epic', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/7/70/Action_Figure.png/revision/latest/scale-to-width-down/100?cb=20250407081928' },
+        { id: 'aq_monolith', name: 'Monolith Arrow', type: 'epic', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/3/3b/Monolith_Arrow.png/revision/latest/scale-to-width-down/200?cb=20260602070115' },
         { id: 'aq_invis', name: 'Invis Vial', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/0/08/Invisibility_Vial.png/revision/latest/scale-to-width-down/100?cb=20240101094313' },
         { id: 'aq_giant', name: 'Giant Arrow', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/b/bb/Giant_Arrow.png/revision/latest/scale-to-width-down/100?cb=20231211154034', unlockTh: 9 },
         { id: 'aq_archer', name: 'Archer Puppet', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/d/d4/Archer_Puppet.png/revision/latest/scale-to-width-down/100?cb=20231211153910' },
@@ -133,9 +134,11 @@ export const EQUIP_DB: Record<HeroType, EquipmentItem[]> = {
         { id: 'rc_hog', name: 'Hog Puppet', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/3/32/Hog_Rider_Puppet.png/revision/latest/scale-to-width-down/100?cb=20240225143837', unlockTh: 14 }
     ],
     DD: [
+        { id: 'dd_rocket', name: 'Rocket Backpack', type: 'epic', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/8/8f/Rocket_Backpack.png/revision/latest/scale-to-width-down/200?cb=20260409103804', unlockTh: 15 },
         { id: 'dd_fireheart', name: 'Fire Heart', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/8/86/Fire_Heart.png/revision/latest/scale-to-width-down/200?cb=20260227182842', unlockTh: 15 },
         { id: 'dd_flameblower', name: 'Flame Blower', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/8/89/Flame_Blower.png/revision/latest/scale-to-width-down/200?cb=20260227182817', unlockTh: 15 },
-        { id: 'dd_stunblaster', name: 'Stun Blaster', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/3/34/Stun_Blaster.png/revision/latest/scale-to-width-down/200?cb=20260227182901', unlockTh: 15 }
+        { id: 'dd_stunblaster', name: 'Stun Blaster', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/3/34/Stun_Blaster.png/revision/latest/scale-to-width-down/200?cb=20260227182901', unlockTh: 15 },
+        { id: 'dd_electro', name: 'Electro Fangs', type: 'common', imageUrl: 'https://static.wikia.nocookie.net/clashofclans/images/2/2c/Electro_Fangs.png/revision/latest/scale-to-width-down/200?cb=20260426121243', unlockTh: 15 }
     ]
 };
 
