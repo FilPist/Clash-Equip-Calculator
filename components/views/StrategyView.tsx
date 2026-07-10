@@ -233,9 +233,9 @@ export const StrategyView: React.FC<StrategyViewProps> = ({ t, strategy, updateS
                 </div>
 
                 {/* Shop Strategy */}
-                <div className="flex items-center justify-between pt-6 border-t border-[var(--border-color)]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-[var(--border-color)]">
                      <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-xl bg-[var(--bg-input)] text-[var(--text-main)]">
+                        <div className="p-3 rounded-xl bg-[var(--bg-input)] text-[var(--text-main)] shrink-0">
                             <Zap className="w-6 h-6" />
                         </div>
                         <div>
@@ -243,7 +243,7 @@ export const StrategyView: React.FC<StrategyViewProps> = ({ t, strategy, updateS
                             <p className="text-sm text-[var(--text-muted)] font-bold">Choose how to spend bonus medals.</p>
                         </div>
                     </div>
-                    <div className="w-48">
+                    <div className="w-full sm:w-48 shrink-0">
                         <SegmentedControl 
                             options={[
                                 { value: 'ores', label: t.opt_shop_ores.split(' ')[0] },
@@ -251,6 +251,7 @@ export const StrategyView: React.FC<StrategyViewProps> = ({ t, strategy, updateS
                             ]}
                             value={strategy.eventShopStrat}
                             onChange={(val) => updateStrategy('eventShopStrat', val as any)}
+                            className="w-full"
                         />
                     </div>
                 </div>

@@ -24,7 +24,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4 animate-in fade-in duration-500">
             
             {/* LEFT COLUMN */}
-            <div className="lg:col-span-4 space-y-6">
+            <div className="lg:col-span-4 space-y-6 order-2 lg:order-1">
                 
                 {/* QUICK STRATEGY CARD */}
                 <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-6 shadow-[var(--shadow-card)]">
@@ -140,43 +140,43 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* RIGHT COLUMN */}
-            <div className="lg:col-span-8 space-y-6">
+            <div className="lg:col-span-8 space-y-6 order-1 lg:order-2">
                 
                 {/* RESULT CARD */}
-                <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-6 md:p-10 relative overflow-hidden shadow-[var(--shadow-card)] ring-2 ring-[var(--ore-starry)]/20">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-5 md:p-10 relative overflow-hidden shadow-[var(--shadow-card)] ring-2 ring-[var(--ore-starry)]/20">
                     <div className="absolute right-0 top-0 w-96 h-96 rounded-full blur-[120px] opacity-10 pointer-events-none bg-[var(--ore-starry)]"></div>
-                    <div className="flex flex-col md:flex-row justify-between items-start mb-12 relative z-10 gap-4">
+                    <div className="flex flex-col md:flex-row justify-between items-start mb-6 md:mb-12 relative z-10 gap-4">
                         <div>
-                            <h2 className="text-4xl md:text-5xl font-heavy text-[var(--text-main)] mb-2 tracking-tight">{t.result_title}</h2>
-                            <p className="text-[var(--text-muted)] font-bold text-sm">{t.result_subtitle}</p>
+                            <h2 className="text-3xl md:text-5xl font-heavy text-[var(--text-main)] mb-1.5 tracking-tight">{t.result_title}</h2>
+                            <p className="text-[var(--text-muted)] font-bold text-xs md:text-sm">{t.result_subtitle}</p>
                         </div>
-                        <div className="flex items-center gap-3 px-5 py-3 rounded-2xl border border-red-500/30 bg-red-500/5 backdrop-blur-sm">
-                            <span className="text-xs font-heavy text-red-400 uppercase tracking-widest">{t.label_new_releases}</span>
+                        <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl border border-red-500/30 bg-red-500/5 backdrop-blur-sm shrink-0">
+                            <span className="text-[10px] md:text-xs font-heavy text-red-400 uppercase tracking-widest">{t.label_new_releases}</span>
                             <Toggle checked={strategy.newReleases} onChange={(v) => updateStrategy('newReleases', v)} id="newRel" colorClass="bg-red-500" />
                         </div>
                     </div>
 
                     {/* MAIN ESTIMATE (STARRY) */}
-                    <div className="mb-16 relative z-10">
-                        <div className="flex justify-between items-end mb-4">
-                            <span className="text-[var(--ore-starry)] font-heavy text-sm uppercase tracking-widest flex items-center gap-2">
+                    <div className="mb-8 md:mb-16 relative z-10">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-4 gap-2">
+                            <span className="text-[var(--ore-starry)] font-heavy text-xs md:text-sm uppercase tracking-widest flex items-center gap-2">
                                 <img src={ORE_IMAGES.starry} alt="Starry" className="w-5 h-5 object-contain" />
                                 Starry Ore
                             </span>
-                            <span className={`font-heavy tracking-tighter leading-none ${times.starry.isError ? 'text-red-500 text-4xl' : 'text-6xl md:text-7xl text-[var(--text-main)]'}`}>{times.starry.text}</span>
+                            <span className={`font-heavy tracking-tighter leading-none ${times.starry.isError ? 'text-red-500 text-3xl md:text-4xl' : 'text-5xl md:text-7xl text-[var(--text-main)]'}`}>{times.starry.text}</span>
                         </div>
-                        <div className="w-full rounded-full h-6 overflow-hidden bg-[var(--bg-input)]">
+                        <div className="w-full rounded-full h-5 md:h-6 overflow-hidden bg-[var(--bg-input)]">
                             <div 
                                 className="h-full rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(255,213,79,0.3)]" 
                                 style={{ width: `${Math.min(100, times.starry.percent)}%`, backgroundColor: times.starry.isError ? 'red' : 'var(--ore-starry)' }}
                             ></div>
                         </div>
-                        <p className="mt-4 text-sm font-bold text-[var(--text-muted)]">
+                        <p className="mt-4 text-xs md:text-sm font-bold text-[var(--text-muted)]">
                             {times.starry.isError && strategy.newReleases ? <span className="text-red-400">{t.msg_deficit}</span> : t.msg_ok}
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 relative z-10">
                         <div>
                             <div className="flex justify-between items-end mb-3">
                                 <span className="text-[var(--ore-glowy)] font-heavy text-xs uppercase tracking-widest flex items-center gap-1.5">
@@ -212,59 +212,59 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         <table className="w-full text-left text-sm text-[var(--text-muted)]">
                             <thead className="text-xs uppercase tracking-widest font-heavy bg-[var(--bg-input)]">
                                 <tr>
-                                    <th className="px-6 py-4">{t.col_source}</th>
-                                    <th className="px-6 py-4 text-[var(--ore-shiny)]">Shiny</th>
-                                    <th className="px-6 py-4 text-[var(--ore-glowy)]">Glowy</th>
-                                    <th className="px-6 py-4 text-[var(--ore-starry)]">Starry</th>
+                                    <th className="px-3 py-3 md:px-6 md:py-4">{t.col_source}</th>
+                                    <th className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-shiny)]">Shiny</th>
+                                    <th className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-glowy)]">Glowy</th>
+                                    <th className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-starry)]">Starry</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-[var(--border-color)] font-bold">
+                            <tbody className="divide-y divide-[var(--border-color)] font-bold text-xs md:text-sm">
                                 <tr>
-                                    <td className="px-6 py-4">{t.row_bonus}</td>
-                                    <td className="px-6 py-4">{Math.round(income.monthlyStarBonus.shiny).toLocaleString()}</td>
-                                    <td className="px-6 py-4">{Math.round(income.monthlyStarBonus.glowy).toLocaleString()}</td>
-                                    <td className="px-6 py-4">{Math.round(income.monthlyStarBonus.starry).toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">{t.row_bonus}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">{Math.round(income.monthlyStarBonus.shiny).toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">{Math.round(income.monthlyStarBonus.glowy).toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">{Math.round(income.monthlyStarBonus.starry).toLocaleString()}</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-6 py-4">Clan War + CWL</td>
-                                    <td className="px-6 py-4">{Math.round(income.warLoot.shiny).toLocaleString()}</td>
-                                    <td className="px-6 py-4">{Math.round(income.warLoot.glowy).toLocaleString()}</td>
-                                    <td className="px-6 py-4">{Math.round(income.warLoot.starry).toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">Clan War + CWL</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">{Math.round(income.warLoot.shiny).toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">{Math.round(income.warLoot.glowy).toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">{Math.round(income.warLoot.starry).toLocaleString()}</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-6 py-4">Raid Medals</td>
-                                    <td className="px-6 py-4 text-[var(--ore-shiny)]">{income.raidLoot.shiny.toLocaleString()}</td>
-                                    <td className="px-6 py-4 text-[var(--ore-glowy)]">{income.raidLoot.glowy.toLocaleString()}</td>
-                                    <td className="px-6 py-4 text-[var(--ore-starry)]">{income.raidLoot.starry.toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4">Raid Medals</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-shiny)]">{income.raidLoot.shiny.toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-glowy)]">{income.raidLoot.glowy.toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-starry)]">{income.raidLoot.starry.toLocaleString()}</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-6 py-4 text-purple-400">Trader</td>
-                                    <td className="px-6 py-4 text-purple-400">{income.traderLoot.shiny > 0 ? income.traderLoot.shiny.toLocaleString() : '-'}</td>
-                                    <td className="px-6 py-4 text-purple-400">{income.traderLoot.glowy > 0 ? income.traderLoot.glowy.toLocaleString() : '-'}</td>
-                                    <td className="px-6 py-4 text-purple-400">{income.traderLoot.starry > 0 ? income.traderLoot.starry.toLocaleString() : '-'}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-purple-400">Trader</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-purple-400">{income.traderLoot.shiny > 0 ? income.traderLoot.shiny.toLocaleString() : '-'}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-purple-400">{income.traderLoot.glowy > 0 ? income.traderLoot.glowy.toLocaleString() : '-'}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-purple-400">{income.traderLoot.starry > 0 ? income.traderLoot.starry.toLocaleString() : '-'}</td>
                                 </tr>
                                 <tr className="bg-blue-500/5">
-                                    <td className="px-6 py-4 flex flex-col">
+                                    <td className="px-3 py-3 md:px-6 md:py-4 flex flex-col">
                                         <span>{t.row_event}</span>
-                                        <span className="text-[10px] font-normal opacity-70">{strategy.eventPass ? "Pass Gold + " : "F2P + "}{t.label_shop.split(' ')[0]}</span>
+                                        <span className="text-[9px] font-normal opacity-70">{strategy.eventPass ? "Pass Gold + " : "F2P + "}{t.label_shop.split(' ')[0]}</span>
                                     </td>
-                                    <td className="px-6 py-4 text-[var(--ore-shiny)]">{income.eventLoot.shiny.toLocaleString()}</td>
-                                    <td className="px-6 py-4 text-[var(--ore-glowy)]">{income.eventLoot.glowy.toLocaleString()}</td>
-                                    <td className="px-6 py-4 text-[var(--ore-starry)]">{income.eventLoot.starry.toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-shiny)]">{income.eventLoot.shiny.toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-glowy)]">{income.eventLoot.glowy.toLocaleString()}</td>
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-[var(--ore-starry)]">{income.eventLoot.starry.toLocaleString()}</td>
                                 </tr>
                                 {strategy.newReleases && (
                                     <tr className="bg-red-500/10 text-red-400">
-                                        <td className="px-6 py-4">{t.row_cost}</td>
-                                        <td className="px-6 py-4">-28,000</td>
-                                        <td className="px-6 py-4">-1,860</td>
-                                        <td className="px-6 py-4">-240</td>
+                                        <td className="px-3 py-3 md:px-6 md:py-4">{t.row_cost}</td>
+                                        <td className="px-3 py-3 md:px-6 md:py-4">-28,000</td>
+                                        <td className="px-3 py-3 md:px-6 md:py-4">-1,860</td>
+                                        <td className="px-3 py-3 md:px-6 md:py-4">-240</td>
                                     </tr>
                                 )}
-                                <tr className="bg-[var(--bg-input)] text-[var(--text-main)] text-base">
-                                    <td className="px-6 py-5 font-heavy">{t.row_net}</td>
-                                    <td className="px-6 py-5 font-heavy">{Math.round(income.netIncome.shiny).toLocaleString()}</td>
-                                    <td className="px-6 py-5 font-heavy">{Math.round(income.netIncome.glowy).toLocaleString()}</td>
-                                    <td className="px-6 py-5 font-heavy">{Math.round(income.netIncome.starry).toLocaleString()}</td>
+                                <tr className="bg-[var(--bg-input)] text-[var(--text-main)] text-sm md:text-base">
+                                    <td className="px-3 py-4 md:px-6 md:py-5 font-heavy">{t.row_net}</td>
+                                    <td className="px-3 py-4 md:px-6 md:py-5 font-heavy">{Math.round(income.netIncome.shiny).toLocaleString()}</td>
+                                    <td className="px-3 py-4 md:px-6 md:py-5 font-heavy">{Math.round(income.netIncome.glowy).toLocaleString()}</td>
+                                    <td className="px-3 py-4 md:px-6 md:py-5 font-heavy">{Math.round(income.netIncome.starry).toLocaleString()}</td>
                                 </tr>
                             </tbody>
                         </table>

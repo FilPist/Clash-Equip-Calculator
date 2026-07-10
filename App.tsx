@@ -114,6 +114,7 @@ function App() {
             {view === 'equipment' && (
                 <EquipmentView 
                     t={t}
+                    lang={lang}
                     activeTab={activeTab}
                     setActiveTab={actions.setActiveTab}
                     equipState={equipState}
@@ -150,8 +151,8 @@ function App() {
                     <div className="flex items-center gap-3">
                         <span className="px-3 py-1 rounded-full bg-[var(--bg-input)] font-heavy text-[var(--ore-starry)] uppercase tracking-wider text-[10px]">
                             {lang === 'it' 
-                                ? 'Aggiornato a: Marzo 2026' 
-                                : 'Updated to: March 2026'}
+                                ? 'Aggiornato a: Giugno 2025' 
+                                : 'Updated to: June 2025'}
                         </span>
                         <span className="px-3 py-1 rounded-full bg-blue-500/10 text-[var(--ore-shiny)] border border-blue-500/20 font-heavy tracking-wider text-[10px]">
                             v2.1.0

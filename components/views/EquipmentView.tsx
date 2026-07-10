@@ -1,13 +1,14 @@
-import React from 'react';
-import { Star, ArrowUp, ArrowDown, Trash2, Image as ImageIcon, Upload, Download } from 'lucide-react';
+import React, { useState } from 'react';
+import { Star, ArrowUp, ArrowDown, Trash2, Image as ImageIcon, Upload, Download, ChevronDown, ChevronUp } from 'lucide-react';
 import { EQUIP_DB, HERO_META, ORE_IMAGES } from '../../constants';
 import { EquipCard } from '../ui/common';
 import { HeroBanner } from '../hero/HeroBanner';
-import { Translations, HeroType, EquipmentState, EquipmentItem, StrategyState, PriorityItem } from '../../types';
+import { Translations, HeroType, EquipmentState, EquipmentItem, StrategyState, PriorityItem, Lang } from '../../types';
 import { getMaxAllowedLevel, getRemainingCost, formatNumber } from '../../utils';
 
 interface EquipmentViewProps {
     t: Translations;
+    lang: Lang;
     activeTab: HeroType;
     setActiveTab: (v: HeroType) => void;
     equipState: EquipmentState;
@@ -24,9 +25,10 @@ interface EquipmentViewProps {
 
 // Add this prop to component definition inside the file if not already imported by generic props
 export const EquipmentView: React.FC<EquipmentViewProps & { updatePriorityTarget: (k: string, v: number) => void }> = ({
-    t, activeTab, setActiveTab, equipState, setEquipState, priorityList,
+    t, lang, activeTab, setActiveTab, equipState, setEquipState, priorityList,
     togglePriority, movePriority, strategy, priorityTimes, copyConfig, pasteConfig, updatePriorityTarget
 }) => {
+    const [isHeroSelectorOpen, setIsHeroSelectorOpen] = useState(false);
     
     const getEquipName = (key: string) => {
         const hero = key.split('_')[0] as HeroType;
@@ -205,24 +207,149 @@ export const EquipmentView: React.FC<EquipmentViewProps & { updatePriorityTarget
             </div>
 
             <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-6 md:p-8 shadow-[var(--shadow-card)]">
-                {/* TABS */}
-                <div className="flex gap-2 mb-6 overflow-x-auto pb-2 border-b border-[var(--border-color)] no-scrollbar">
-                    {(Object.keys(EQUIP_DB) as HeroType[]).map(hero => (
+                {/* HERO SELECTOR - Desktop and Mobile adaptive */}
+                <div className="mb-6">
+                    {/* Desktop Tabs: visible only on md+ */}
+                    <div className="hidden md:flex gap-3 overflow-x-auto pb-3 pt-1 px-1 no-scrollbar scroll-smooth border-b border-[var(--border-color)]">
+                        {(Object.keys(EQUIP_DB) as HeroType[]).map(hero => {
+                            const meta = HERO_META[hero];
+                            const isSelected = activeTab === hero;
+                            const heroName = hero === 'GW' ? (lang === 'it' ? 'Sorvegliante' : 'Warden') :
+                                             hero === 'RC' ? (lang === 'it' ? 'Campionessa' : 'Royal Champ') :
+                                             hero === 'BK' ? (lang === 'it' ? 'Re Barbaro' : 'King') :
+                                             hero === 'AQ' ? (lang === 'it' ? 'Regina' : 'Queen') :
+                                             hero === 'MP' ? (lang === 'it' ? 'Principe' : 'Minion Prince') :
+                                             (lang === 'it' ? 'Duca Drago' : 'Dragon Duke');
+
+                            return (
+                                <button
+                                    key={hero}
+                                    onClick={() => setActiveTab(hero)}
+                                    className={`flex items-center gap-3 pl-2 pr-4 py-2 rounded-2xl transition-all duration-300 shrink-0 border-2 active:scale-95 shadow-sm group
+                                        ${isSelected 
+                                            ? 'bg-[var(--bg-input)] border-[var(--accent-primary)] scale-[1.02] ring-2 ring-[var(--accent-primary)]/10' 
+                                            : 'bg-[var(--bg-input-nav)] border-transparent hover:border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                                        }`}
+                                >
+                                    {/* Mini Avatar Box */}
+                                    <div className={`w-10 h-10 rounded-xl overflow-hidden relative bg-gradient-to-br ${meta.colorFrom} ${meta.colorTo} border border-white/10 flex items-center justify-center shrink-0 shadow-inner`}>
+                                        <img 
+                                            src={meta.image} 
+                                            alt={meta.name} 
+                                            className="w-[140%] h-[140%] max-w-none object-contain absolute -bottom-1 -left-1 drop-shadow-md transition-transform group-hover:scale-110" 
+                                        />
+                                    </div>
+                                    <div className="text-left">
+                                        <div className={`text-xs font-heavy uppercase tracking-wider ${isSelected ? 'text-[var(--accent-primary)] font-black' : 'text-[var(--text-muted)] group-hover:text-[var(--text-main)] font-heavy'}`}>
+                                            {heroName}
+                                        </div>
+                                        <div className="text-[9px] font-bold text-[var(--text-muted)] leading-none mt-0.5">
+                                            {EQUIP_DB[hero]?.length} Equip
+                                        </div>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Mobile Selector: visible only on mobile (under md) */}
+                    <div className="md:hidden relative">
                         <button
-                            key={hero}
-                            onClick={() => setActiveTab(hero)}
-                            className={`px-6 py-3 rounded-t-xl font-heavy text-sm uppercase tracking-wider transition-colors shrink-0 ${activeTab === hero ? 'bg-[var(--accent-primary)] text-white' : 'bg-[var(--bg-input)] text-[var(--text-muted)] hover:text-[var(--text-main)]'}`}
+                            onClick={() => setIsHeroSelectorOpen(!isHeroSelectorOpen)}
+                            className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-[var(--bg-input)] border border-[var(--border-color)] active:scale-98 transition-all hover:border-[var(--accent-primary)] shadow-sm"
                         >
-                            {hero === 'GW' ? 'Warden' : hero === 'RC' ? 'Royal Champ' : hero === 'BK' ? 'King' : hero === 'AQ' ? 'Queen' : hero === 'MP' ? 'Minion Prince' : 'Dragon Duke'}
+                            <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-xl overflow-hidden relative bg-gradient-to-br ${HERO_META[activeTab].colorFrom} ${HERO_META[activeTab].colorTo} border border-white/10 flex items-center justify-center shrink-0 shadow-inner`}>
+                                    <img 
+                                        src={HERO_META[activeTab].image} 
+                                        alt={activeTab} 
+                                        className="w-[140%] h-[140%] max-w-none object-contain absolute -bottom-1 -left-1" 
+                                    />
+                                </div>
+                                <div className="text-left">
+                                    <span className="text-[10px] font-heavy text-[var(--text-muted)] uppercase tracking-wider block leading-none">
+                                        {lang === 'it' ? 'Eroe Attivo' : 'Active Hero'}
+                                    </span>
+                                    <span className="text-sm font-heavy text-[var(--text-main)] block mt-0.5">
+                                        {activeTab === 'GW' ? (lang === 'it' ? 'Sorvegliante' : 'Warden') :
+                                         activeTab === 'RC' ? (lang === 'it' ? 'Campionessa' : 'Royal Champ') :
+                                         activeTab === 'BK' ? (lang === 'it' ? 'Re Barbaro' : 'King') :
+                                         activeTab === 'AQ' ? (lang === 'it' ? 'Regina' : 'Queen') :
+                                         activeTab === 'MP' ? (lang === 'it' ? 'Principe' : 'Minion Prince') :
+                                         (lang === 'it' ? 'Duca Drago' : 'Dragon Duke')}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-heavy px-2.5 py-1 rounded-lg bg-[var(--bg-card)] text-[var(--text-muted)] uppercase tracking-wider">
+                                    {lang === 'it' ? 'Cambia' : 'Change'}
+                                </span>
+                                {isHeroSelectorOpen ? <ChevronUp className="w-4 h-4 text-[var(--text-muted)]" /> : <ChevronDown className="w-4 h-4 text-[var(--text-muted)]" />}
+                            </div>
                         </button>
-                    ))}
+
+                        {/* Hamburger/Dropdown Menu overlay of Heroes */}
+                        {isHeroSelectorOpen && (
+                            <>
+                                {/* Backdrop */}
+                                <div 
+                                    className="fixed inset-0 z-[55] bg-black/40 backdrop-blur-[2px] animate-fade-in"
+                                    onClick={() => setIsHeroSelectorOpen(false)}
+                                />
+                                <div className="absolute left-0 right-0 mt-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl shadow-xl z-[58] p-2 grid grid-cols-1 gap-1 animate-in zoom-in-95 duration-150">
+                                    {(Object.keys(EQUIP_DB) as HeroType[]).map(hero => {
+                                        const meta = HERO_META[hero];
+                                        const isSelected = activeTab === hero;
+                                        const heroName = hero === 'GW' ? (lang === 'it' ? 'Sorvegliante' : 'Warden') :
+                                                         hero === 'RC' ? (lang === 'it' ? 'Campionessa' : 'Royal Champ') :
+                                                         hero === 'BK' ? (lang === 'it' ? 'Re Barbaro' : 'King') :
+                                                         hero === 'AQ' ? (lang === 'it' ? 'Regina' : 'Queen') :
+                                                         hero === 'MP' ? (lang === 'it' ? 'Principe' : 'Minion Prince') :
+                                                         (lang === 'it' ? 'Duca Drago' : 'Dragon Duke');
+
+                                        return (
+                                            <button
+                                                key={hero}
+                                                onClick={() => {
+                                                    setActiveTab(hero);
+                                                    setIsHeroSelectorOpen(false);
+                                                }}
+                                                className={`flex items-center justify-between p-2.5 rounded-xl transition-all duration-200 active:scale-98
+                                                    ${isSelected 
+                                                        ? 'bg-[var(--bg-input)] text-[var(--accent-primary)] font-black' 
+                                                        : 'hover:bg-[var(--bg-input-nav)] text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                                                    }`}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`w-9 h-9 rounded-lg overflow-hidden relative bg-gradient-to-br ${meta.colorFrom} ${meta.colorTo} border border-white/10 flex items-center justify-center shrink-0`}>
+                                                        <img 
+                                                            src={meta.image} 
+                                                            alt={meta.name} 
+                                                            className="w-[140%] h-[140%] max-w-none object-contain absolute -bottom-1 -left-1" 
+                                                        />
+                                                    </div>
+                                                    <div className="text-left">
+                                                        <span className="text-xs font-heavy block">{heroName}</span>
+                                                        <span className="text-[9px] font-bold text-[var(--text-muted)] block leading-none">{EQUIP_DB[hero]?.length} Equipment</span>
+                                                    </div>
+                                                </div>
+                                                {isSelected && (
+                                                    <div className="w-2 h-2 rounded-full bg-[var(--accent-primary)] mr-2" />
+                                                )}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
 
                 {/* HERO HEADER IMAGE BANNER */}
                 <HeroBanner activeTab={activeTab} />
 
                 {/* GRID */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
                     {EQUIP_DB[activeTab]?.map(item => {
                         const key = `${activeTab}_${item.id}`;
                         const lvl = typeof equipState[key] !== 'undefined' ? equipState[key] : 1;

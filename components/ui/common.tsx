@@ -117,98 +117,103 @@ export const EquipCard: React.FC<EquipCardProps> = ({ item, level, thLevel, onCh
     const isMaxed = level >= maxLevel && !isLocked;
 
     return (
-        <div className={`relative bg-[var(--bg-input)] rounded-2xl p-4 border-2 transition-all duration-300 group hover:border-[var(--accent-primary)] ${isPriority ? 'border-[var(--ore-starry)] shadow-[0_0_15px_rgba(255,213,79,0.15)]' : 'border-transparent'}`}>
+        <div className={`relative bg-[var(--bg-input)] rounded-2xl p-3 sm:p-4 border-2 transition-all duration-300 group hover:border-[var(--accent-primary)] ${isPriority ? 'border-[var(--ore-starry)] shadow-[0_0_15px_rgba(255,213,79,0.15)]' : 'border-transparent'} flex flex-row sm:flex-col gap-3.5 items-center sm:items-stretch`}>
             <button 
                 onClick={onTogglePriority}
-                className={`absolute top-3 right-3 p-1.5 rounded-full transition-all z-10 ${isPriority ? 'bg-[var(--ore-starry)] text-black' : 'bg-black/20 text-[var(--text-muted)] hover:text-[var(--ore-starry)]'}`}
+                className={`absolute top-2.5 right-2.5 p-1.5 rounded-full transition-all z-10 ${isPriority ? 'bg-[var(--ore-starry)] text-black' : 'bg-black/20 text-[var(--text-muted)] hover:text-[var(--ore-starry)]'}`}
             >
-                <Star className={`w-4 h-4 ${isPriority ? 'fill-current' : ''}`} />
+                <Star className={`w-3.5 h-3.5 ${isPriority ? 'fill-current' : ''}`} />
             </button>
 
-            <div className={`aspect-square rounded-xl mb-4 relative overflow-hidden flex items-center justify-center ${item.type === 'epic' ? 'bg-[#d48ae0]/10' : 'bg-[#4fc3f7]/10'}`}>
+            {/* Icon Block */}
+            <div className={`aspect-square w-16 h-16 sm:w-full sm:h-auto rounded-xl sm:mb-4 shrink-0 relative overflow-hidden flex items-center justify-center ${item.type === 'epic' ? 'bg-[#d48ae0]/10' : 'bg-[#4fc3f7]/10'}`}>
                 {item.imageUrl ? (
-                    <img src={item.imageUrl} alt={item.name} className={`w-[80%] h-[80%] object-contain drop-shadow-lg transition-transform duration-500 group-hover:scale-110 ${isLocked || isNotOwned ? 'grayscale opacity-50' : ''}`} />
+                    <img src={item.imageUrl} alt={item.name} className={`w-[85%] h-[85%] object-contain drop-shadow-lg transition-transform duration-500 group-hover:scale-110 ${isLocked || isNotOwned ? 'grayscale opacity-50' : ''}`} />
                 ) : (
-                    <div className="w-12 h-12 bg-white/10 rounded-full" />
+                    <div className="w-10 h-10 bg-white/10 rounded-full" />
                 )}
-                <div className={`absolute bottom-2 left-2 px-2 py-0.5 rounded text-[10px] font-heavy uppercase tracking-wide ${item.type === 'epic' ? 'bg-[#d48ae0] text-black' : 'bg-[#4fc3f7] text-black'}`}>
+                <div className={`absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[8px] font-heavy uppercase tracking-wide ${item.type === 'epic' ? 'bg-[#d48ae0] text-black' : 'bg-[#4fc3f7] text-black'}`}>
                     {item.type}
                 </div>
             </div>
 
-            <div className="mb-2">
-                <h3 className="font-heavy text-[var(--text-main)] leading-tight mb-1 truncate" title={item.name}>{item.name}</h3>
-                <p className="text-xs font-bold text-[var(--text-muted)]">
-                    {isLocked 
-                        ? (item.unlockTh ? `Unlock at TH${item.unlockTh}` : 'Locked') 
-                        : (isNotOwned ? 'Not Owned' : `Max Level: ${maxLevel}`)
-                    }
-                </p>
-            </div>
-
-            {/* Next Cost Indicator */}
-            <div className="h-8 mb-1 flex items-center justify-center">
-                {nextCost ? (
-                    <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] text-[10px] font-bold">
-                        <span className="text-[var(--text-muted)] uppercase text-[9px]">Next:</span>
-                        {nextCost.shiny > 0 && <div className="flex items-center gap-1 text-[var(--ore-shiny)]"><img src={ORE_IMAGES.shiny} className="w-3 h-3" />{formatNumber(nextCost.shiny)}</div>}
-                        {nextCost.glowy > 0 && <div className="flex items-center gap-1 text-[var(--ore-glowy)]"><img src={ORE_IMAGES.glowy} className="w-3 h-3" />{formatNumber(nextCost.glowy)}</div>}
-                        {nextCost.starry > 0 && <div className="flex items-center gap-1 text-[var(--ore-starry)]"><img src={ORE_IMAGES.starry} className="w-3 h-3" />{nextCost.starry}</div>}
-                    </div>
-                ) : (
-                    !isLocked && !isNotOwned && <div className="text-[10px] font-bold text-[var(--text-muted)] opacity-50 uppercase tracking-widest">Maxed</div>
-                )}
-                 {isNotOwned && <div className="text-[10px] font-bold text-[var(--text-muted)] opacity-50 uppercase tracking-widest">Equip to Unlock</div>}
-            </div>
-
-             {/* Remaining Cost Summary */}
-             <div className="h-6 mb-2 flex items-center justify-center">
-                {!isMaxed && !isLocked && !isNotOwned && (remaining.shiny > 0 || remaining.glowy > 0 || remaining.starry > 0) && (
-                    <div className="flex items-center gap-1.5 text-[9px] font-bold text-[var(--text-muted)] opacity-80">
-                         <span className="uppercase tracking-widest mr-1">Left:</span>
-                        {remaining.shiny > 0 && <span className="text-[var(--ore-shiny)] flex items-center gap-0.5"><img src={ORE_IMAGES.shiny} className="w-2.5 h-2.5" />{formatNumber(remaining.shiny)}</span>}
-                        {remaining.glowy > 0 && <span className="text-[var(--ore-glowy)] flex items-center gap-0.5"><img src={ORE_IMAGES.glowy} className="w-2.5 h-2.5" />{formatNumber(remaining.glowy)}</span>}
-                        {remaining.starry > 0 && <span className="text-[var(--ore-starry)] flex items-center gap-0.5"><img src={ORE_IMAGES.starry} className="w-2.5 h-2.5" />{remaining.starry}</span>}
-                    </div>
-                )}
-            </div>
-
-            {isNotOwned ? (
-                 <button 
-                    onClick={() => onChange(1)}
-                    className="w-full h-10 rounded-xl bg-[var(--accent-primary)] text-white font-heavy uppercase tracking-widest text-sm shadow-lg hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
-                >
-                    <Lock className="w-3.5 h-3.5" />
-                    Unlock
-                </button>
-            ) : (
-                <div className="flex items-center gap-2">
-                     <button 
-                        onClick={() => onChange(Math.max(0, level - 1))}
-                        disabled={level <= 0 || isLocked}
-                        className="w-8 h-8 rounded-lg bg-[var(--bg-card)] flex items-center justify-center text-[var(--text-main)] hover:bg-[var(--accent-primary)] hover:text-white transition-colors disabled:opacity-30 font-bold"
-                    >
-                        -
-                    </button>
-                    <div className="flex-1 text-center">
-                        <div className="text-xl font-heavy text-[var(--text-main)]">{isLocked ? 'Lk' : level}</div>
-                    </div>
-                    <button 
-                        onClick={() => onChange(Math.min(maxLevel, level + 1))}
-                        disabled={level >= maxLevel || isLocked}
-                        className="w-8 h-8 rounded-lg bg-[var(--bg-card)] flex items-center justify-center text-[var(--text-main)] hover:bg-[var(--accent-primary)] hover:text-white transition-colors disabled:opacity-30 font-bold"
-                    >
-                        +
-                    </button>
-                    <button 
-                        onClick={() => onChange(maxLevel)}
-                        disabled={level >= maxLevel || isLocked}
-                        className="text-[10px] font-heavy bg-[var(--accent-primary)] text-white px-2 rounded-md h-8 hover:bg-blue-600 disabled:opacity-30 disabled:bg-[var(--bg-card)] disabled:text-[var(--text-muted)] transition-colors ml-1"
-                    >
-                        MAX
-                    </button>
+            {/* Content & Controls Wrapper */}
+            <div className="flex-1 min-w-0 flex flex-col justify-center sm:block w-full">
+                <div className="mb-1 sm:mb-2 pr-6 sm:pr-0">
+                    <h3 className="font-heavy text-sm sm:text-base text-[var(--text-main)] leading-tight mb-0.5 truncate" title={item.name}>{item.name}</h3>
+                    <p className="text-[10px] sm:text-xs font-bold text-[var(--text-muted)]">
+                        {isLocked 
+                            ? (item.unlockTh ? `Unlock at TH${item.unlockTh}` : 'Locked') 
+                            : (isNotOwned ? 'Not Owned' : `Max Level: ${maxLevel}`)
+                        }
+                    </p>
                 </div>
-            )}
+
+                {/* Next Cost Indicator */}
+                <div className="h-auto sm:h-8 mb-1 flex flex-wrap sm:justify-center items-center gap-1.5">
+                    {nextCost ? (
+                        <div className="flex items-center gap-1.5 px-1.5 py-0.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] text-[9px] font-bold">
+                            <span className="text-[var(--text-muted)] uppercase text-[8px]">Next:</span>
+                            {nextCost.shiny > 0 && <div className="flex items-center gap-0.5 text-[var(--ore-shiny)]"><img src={ORE_IMAGES.shiny} className="w-2.5 h-2.5" />{formatNumber(nextCost.shiny)}</div>}
+                            {nextCost.glowy > 0 && <div className="flex items-center gap-0.5 text-[var(--ore-glowy)]"><img src={ORE_IMAGES.glowy} className="w-2.5 h-2.5" />{formatNumber(nextCost.glowy)}</div>}
+                            {nextCost.starry > 0 && <div className="flex items-center gap-0.5 text-[var(--ore-starry)]"><img src={ORE_IMAGES.starry} className="w-2.5 h-2.5" />{nextCost.starry}</div>}
+                        </div>
+                    ) : (
+                        !isLocked && !isNotOwned && <div className="text-[9px] font-bold text-[var(--text-muted)] opacity-50 uppercase tracking-widest hidden sm:block">Maxed</div>
+                    )}
+                    {isNotOwned && <div className="text-[9px] font-bold text-[var(--text-muted)] opacity-50 uppercase tracking-widest">Equip to Unlock</div>}
+                </div>
+
+                {/* Remaining Cost Summary */}
+                <div className="h-auto sm:h-6 mb-2 flex sm:justify-center items-center">
+                    {!isMaxed && !isLocked && !isNotOwned && (remaining.shiny > 0 || remaining.glowy > 0 || remaining.starry > 0) && (
+                        <div className="flex items-center gap-1 text-[8px] font-bold text-[var(--text-muted)] opacity-80">
+                            <span className="uppercase tracking-widest mr-0.5">Left:</span>
+                            {remaining.shiny > 0 && <span className="text-[var(--ore-shiny)] flex items-center gap-0.5"><img src={ORE_IMAGES.shiny} className="w-2 h-2" />{formatNumber(remaining.shiny)}</span>}
+                            {remaining.glowy > 0 && <span className="text-[var(--ore-glowy)] flex items-center gap-0.5"><img src={ORE_IMAGES.glowy} className="w-2 h-2" />{formatNumber(remaining.glowy)}</span>}
+                            {remaining.starry > 0 && <span className="text-[var(--ore-starry)] flex items-center gap-0.5"><img src={ORE_IMAGES.starry} className="w-2 h-2" />{remaining.starry}</span>}
+                        </div>
+                    )}
+                </div>
+
+                {/* Controls */}
+                {isNotOwned ? (
+                    <button 
+                        onClick={() => onChange(1)}
+                        className="w-full h-8 sm:h-10 rounded-xl bg-[var(--accent-primary)] text-white font-heavy uppercase tracking-widest text-xs shadow-lg hover:bg-blue-600 transition-all flex items-center justify-center gap-1.5 active:scale-95"
+                    >
+                        <Lock className="w-3 h-3" />
+                        Unlock
+                    </button>
+                ) : (
+                    <div className="flex items-center gap-1.5 w-full">
+                        <button 
+                            onClick={() => onChange(Math.max(0, level - 1))}
+                            disabled={level <= 0 || isLocked}
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--bg-card)] flex items-center justify-center text-[var(--text-main)] hover:bg-[var(--accent-primary)] hover:text-white transition-colors disabled:opacity-30 font-bold text-sm shrink-0 active:scale-95"
+                        >
+                            -
+                        </button>
+                        <div className="flex-1 text-center min-w-0">
+                            <div className="text-base sm:text-xl font-heavy text-[var(--text-main)] truncate">{isLocked ? 'Lk' : level}</div>
+                        </div>
+                        <button 
+                            onClick={() => onChange(Math.min(maxLevel, level + 1))}
+                            disabled={level >= maxLevel || isLocked}
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--bg-card)] flex items-center justify-center text-[var(--text-main)] hover:bg-[var(--accent-primary)] hover:text-white transition-colors disabled:opacity-30 font-bold text-sm shrink-0 active:scale-95"
+                        >
+                            +
+                        </button>
+                        <button 
+                            onClick={() => onChange(maxLevel)}
+                            disabled={level >= maxLevel || isLocked}
+                            className="text-[9px] sm:text-[10px] font-heavy bg-[var(--accent-primary)] text-white px-1.5 sm:px-2 rounded-md h-7 sm:h-8 hover:bg-blue-600 disabled:opacity-30 disabled:bg-[var(--bg-card)] disabled:text-[var(--text-muted)] transition-colors ml-1 shrink-0 active:scale-95"
+                        >
+                            MAX
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

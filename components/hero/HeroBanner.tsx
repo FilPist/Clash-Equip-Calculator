@@ -10,7 +10,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ activeTab }) => {
     const meta = HERO_META[activeTab];
 
     return (
-        <div className="relative mt-24 mb-8 h-48 sm:h-56 select-none">
+        <div className="relative mt-10 sm:mt-14 mb-8 h-32 sm:h-44 md:h-48 select-none">
             {/* Background Card */}
             {/* We use key here to force re-render of the background animation when hero changes */}
             <div 
@@ -41,14 +41,14 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ activeTab }) => {
                 <div className="flex-1 text-right z-10 pl-4">
                     <h2 
                         key={`title-${activeTab}`}
-                        className={`text-3xl sm:text-5xl font-heavy uppercase tracking-tighter drop-shadow-md ${meta.accent} animate-slide-up`} 
+                        className={`text-xl sm:text-3xl md:text-5xl font-heavy uppercase tracking-tighter drop-shadow-md ${meta.accent} animate-slide-up`} 
                         style={{ animationDelay: '150ms' }}
                     >
                         {meta.name}
                     </h2>
                     <p 
                         key={`subtitle-${activeTab}`}
-                        className="text-[var(--text-muted)] font-bold text-xs sm:text-base mt-1 animate-slide-up" 
+                        className="text-[var(--text-muted)] font-bold text-[10px] sm:text-sm mt-0.5 animate-slide-up" 
                         style={{ animationDelay: '250ms' }}
                     >
                         Equipment Manager
